@@ -1,0 +1,9 @@
+services:
+  save-restricted-bot:
+    build: .
+    container_name: save-restricted-bot
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - "10000:10000"
