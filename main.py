@@ -7,13 +7,27 @@ import time
 import os
 import threading
 import json
+from pathlib import Path
 
-with open('config.json', 'r') as f: DATA = json.load(f)
-def getenv(var): return os.environ.get(var) or DATA.get(var, None)
+CONFIG_PATH = Path(__file__).with_name("config.json")
+with CONFIG_PATH.open("r") as f:
+	DATA = json.load(f)
+
+def getenv(var):
+	return os.environ.get(var) or DATA.get(var, None)
 
 bot_token = getenv("TOKEN") 
 api_hash = getenv("HASH") 
 api_id = getenv("ID")
+missing_vars = [name for name, value in {"TOKEN": bot_token, "HASH": api_hash, "ID": api_id}.items() if not value]
+if missing_vars:
+	raise RuntimeError(f"Missing required environment variable(s): {', '.join(missing_vars)}")
+
+try:
+	api_id = int(api_id)
+except (TypeError, ValueError) as exc:
+	raise RuntimeError("ID must be your numeric Telegram API ID from my.telegram.org") from exc
+
 bot = Client("mybot", api_id=api_id, api_hash=api_hash, bot_token=bot_token)
 
 ss = getenv("STRING")

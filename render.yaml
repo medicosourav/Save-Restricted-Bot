@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: save-restricted-bot
+    runtime: docker
+    plan: free
+    healthCheckPath: /
+    envVars:
+      - key: TOKEN
+        sync: false
+      - key: ID
+        sync: false
+      - key: HASH
+        sync: false
+      - key: STRING
+        sync: false
