@@ -2,6 +2,8 @@ services:
   - type: web
     name: save-restricted-bot
     runtime: docker
+    repo: https://github.com/medicosourav/Save-Restricted-Bot.git
+    branch: main
     plan: free
     healthCheckPath: /
     envVars:
